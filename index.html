@@ -1,129 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-tw">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <!--Import Google Icon Font-->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!--Import materialize.css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
-    <!--Import jquery-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>instascan：純前端掃描 QR Code</title>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
 </head>
+
 <body>
-     <a href="ftp://https://www.google.com/" target="_blank">Page</a>
-    <a href="ftp://140.134.25.82/index.html" target="_blank">Page</a>
-    
-    
-    <nav class="nav-extended">
-        <div class="nav-wrapper navbar-fixed container">
-            <a href="#" class="brand-logo center">
-                <i class="medium material-icons">style</i>
-                Number
-            </a>
-            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-            <ul class="right">
-                <li><i class="tiny material-icons">replay</i></li>
-            </ul>
-        </div>
+  <video id="preview"></video>
+  <script type="text/javascript">
+    let scanner = new Instascan.Scanner({
+      continuous: true, // 連續掃描
+      video: document.getElementById('preview'), // 預覽
+      facingMode: {
+        exact: "environment"
+      }
+    });
+    scanner.addListener('scan', function (content) {
 
-        <div class="nav-content">
-            <ul class="tabs tabs-transparent">
-                <li class="tab"><a href="#test1" class="active">田季發爺</a></li>
-                <li class="tab"><a href="#test2">Test 2</a></li>
-                <li class="tab"><a href="#test3">Test 3</a></li>
-                <li class="tab"><a href="#test4">Test 4</a></li>
-            </ul>
-        </div>
-    </nav>
+      console.log(content);
+      getConfirmation();
 
-    <div class="sidenav" id="mobile-demo">
-        <div class="container" style="margin-top:30px;width:90%;">
-            <div class="center">
-                <p> 123 </p>
-                <img class="circle" src="https://lh3.googleusercontent.com/ogw/ADGmqu8yuI4QJtJp7gT3gRUfsbaKDmltup7B0S1yZ13B=s32-c-mo">
-            </div>
-            
-                <ul style="height: 210px;">
-                    <li>
-                       
-                    </li>
-                </ul>
-                <div style="text-align:center;">Varun Malhotra</div>
-            </div>
-            <p>aaa</p>
-        </div>
-        <div id="sidr" style="display:none;">
-            <div class="container" style="margin-top:30px;width:90%;">
-                <div class="slider" style="height: 250px;">
-                    <ul class="slides" style="height: 210px;">
-                        <li>
-                            <img class="circle  responsive-img  dude-pic" src="https://varunmalhotra.xyz/media/img/me__4.jpg">
-                        </li>
-                        <li>
-                            <img class="circle  responsive-img  dude-pic" src="https://varunmalhotra.xyz/media/img/me__4.jpg">
-                        </li>
-                        <li>
-                            <img class="circle  responsive-img  dude-pic" src="https://varunmalhotra.xyz/media/img/me__4.jpg">
-                        </li>
-                    </ul>
-                    <div style="text-align:center;">Varun Malhotra</div>
-                </div>
-                <div class="" id="social-icons">
-                    <a href="https://www.linkedin.com/in/softvar" target="_blank"><i class="fa  fa-linkedin  fa-2x "
-                            title="LinkedIn"></i></a>
-                    <a href="http://twitter.com/s0ftvar" target="_blank"><i class="fa  fa-twitter  fa-2x "
-                            title="Twitter"></i></a>
-                    <a href="http://stackoverflow.com/users/2494535/varun-malhotra" target="_blank"><i
-                            class="fa  fa-stack-overflow  fa-2x " title="Stackoverflow"></i></a>
-                    <a href="http://github.com/softvar" target="_blank"><i class="fa  fa-github  fa-2x "
-                            title="Github"></i></a>
-                </div>
-            </div>
-            <div class="side-navbar">
-                <ul style="margin-top:50px;">
-                    <li><a href="/" class="active"><i class="fa fa-home fa-2x"></i> Home</a></li>
-                    <li><a href="/blog" class="side--blog"><i class="fa fa-terminal fa-2x"></i> Blog</a></li>
-                    <li><a href="/archive" class="side--archive"><i class="fa fa-archive fa-2x"></i> Archive</a></li>
-                    <li><a href="/portfolio" class="side--projects"><i class="fa fa-code fa-2x"></i> Projects</a></li>
-                    <li><a href="/about" class="side--about"><i class="fa fa-child fa-2x"></i> About</a></li>
-                    <li><a href="/contact" class="side--contact"><i class="fa fa-send fa-2x"></i> Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
+      function getConfirmation() {
+        var retVal = confirm("掃描結果：" + content); // 掃描結果顯示
+        if (retVal == true) {
+          var checkurl = /^((https?|http?|file):\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/; // 檢查是否為網址
+          if (checkurl.test(content)) {
+            window.open(content, "_self"); // 開啟網址
+          }
+          return true;
+        } else {
+          return false;
+        }
+      }
 
 
-    <div class="container">
-        <div class="card">
-            <div class="card-image">
-                <img src="http://www.hito-bbq.com.tw/wp-content/uploads/2016/04/S__19546138.jpg">
-                <a class="btn-floating btn-large halfway-fab waves-effect waves-light red">
-                    100
-                </a>
-            </div>
-            <div class="card-content">
-                <span class="card-title">田季發爺</span>
-
-                <p>
-                    <i class="tiny material-icons">call</i>
-                    04-27003689
-                </p>
-            </div>
-            <div class="card-action">
-                <a href="#">This is a link</a>
-            </div>
-        </div>
-    </div>
-    </div>
-    <!--JavaScript at end of body for optimized loading-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script>M.AutoInit();</script>
+    });
+    Instascan.Camera.getCameras().then(function (cameras) {
+      if (cameras.length > 0) {
+        scanner.start(cameras[1]); // [0] 前鏡頭 [1] 後鏡頭 
+      } else {
+        console.error('沒有找到相機');
+      }
+    }).catch(function (e) {
+      console.error(e);
+    });
+  </script>
 </body>
 
 </html>
