@@ -1,0 +1,3 @@
+2020-09-02 09:14:16 已處理 Kiosk(26) Setting Mode Coin Dispense:
+Hopper E:4
+Total:40
